@@ -1,0 +1,52 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="display" width="400" height="400">
+        Oops! Canvas not supported!
+        </canvas>
+        <script>
+
+            var ctx, canvas;
+            var width = 400, height = 400;
+            function genTree(pos, deep, maxDeep, numOfBranch, length, angle, radian)
+            {
+                if (deep < maxDeep) {
+                    for (var i = 0 ; i < numOfBranch; i++) {
+                        newPos = { "x": pos.x, "y": pos.y };
+                        radian += Math.PI * (Math.random() * angle - angle / 2) / 180;
+                        //console.log(radian);
+                        newPos.x += length * Math.sin(radian);
+                        newPos.y -= length * Math.cos(radian);
+                        ctx.beginPath();
+                        ctx.moveTo(pos.x, pos.y);
+                        ctx.lineTo(newPos.x, newPos.y);
+                        ctx.strokeStyle = 'rgb(0, ' + Math.floor(Math.random() * 256) + ', 0)';
+                        ctx.stroke();
+                        genTree(newPos, deep + 1, maxDeep, numOfBranch, length * 0.61803398875, angle * 2, radian);
+                    }
+                }
+            }
+
+            function main()
+            {
+                canvas = document.getElementById("display");
+                ctx = canvas.getContext("2d");
+                groundHeight = 10;
+                var pos = {
+                    "x": width / 2,
+                    "y": height - groundHeight
+                };
+
+                genTree(pos, 0, 14, 2, 100, 8, 0);
+
+                // print ground
+                ctx.fillStyle = "#351c07";
+                ctx.fillRect(0, height - groundHeight, width, height);
+
+            }
+
+            main();
+        </script>
+    </body>
+</html>
